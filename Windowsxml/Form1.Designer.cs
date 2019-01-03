@@ -46,6 +46,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.saveFileOgrenci = new System.Windows.Forms.SaveFileDialog();
+            this.openfilegrenciler = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -219,6 +220,11 @@
             this.button3.TabIndex = 15;
             this.button3.Text = "İçe Aktar";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // openfilegrenciler
+            // 
+            this.openfilegrenciler.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -256,6 +262,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.SaveFileDialog saveFileOgrenci;
+        private System.Windows.Forms.OpenFileDialog openfilegrenciler;
     }
 }
 

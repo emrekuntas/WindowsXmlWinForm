@@ -80,5 +80,23 @@ namespace Windowsxml
             }
 
         }
+       //
+        private void button3_Click(object sender, EventArgs e)
+        {
+            List<ogrenci> okunanogrenciler = new List<ogrenci>();
+            XmlSerializer srl = new XmlSerializer(typeof(List<ogrenci>));
+            if (openfilegrenciler.ShowDialog()==DialogResult.OK) {
+
+                TextReader tr = new StreamReader(openfilegrenciler.FileName);
+                okunanogrenciler = (List<ogrenci>)srl.Deserialize(tr);
+                tr.Close();
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = okunanogrenciler;
+
+            }
+
+
+
+        }
     }
 }
