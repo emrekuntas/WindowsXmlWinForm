@@ -21,20 +21,6 @@ namespace Windowsxml
             InitializeComponent();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            // MessageBox.Show("LGBT seçildi");
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            // MessageBox.Show("ERKEK seçildi");
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            // MessageBox.Show("KADIN seçildi");
-        }
        
         private void button1_Click(object sender, EventArgs e)
         {
