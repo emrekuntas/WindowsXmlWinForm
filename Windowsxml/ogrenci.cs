@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Windowsxml
 {
+    [Serializable]
    public class ogrenci
     {
         private Guid id;

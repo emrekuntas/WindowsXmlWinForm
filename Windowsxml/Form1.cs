@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,7 +33,7 @@ namespace Windowsxml
         {
 
         }
-       
+
         private void button1_Click(object sender, EventArgs e)
         {
             ogrenci o = new ogrenci();
@@ -53,7 +54,7 @@ namespace Windowsxml
                 o.Cins = cinsiyet.erkek;
 
             }
-            else 
+            else
             {
                 o.Cins = cinsiyet.LGBT;
             }
@@ -69,30 +70,104 @@ namespace Windowsxml
             saveFileOgrenci.Filter = "*.xml|*.xml";
             saveFileOgrenci.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             XmlSerializer srl = new XmlSerializer(typeof(List<ogrenci>));
-            if (saveFileOgrenci.ShowDialog()==DialogResult.OK) {
+            if (saveFileOgrenci.ShowDialog() == DialogResult.OK)
+            {
                 TextWriter tw = new StreamWriter(saveFileOgrenci.FileName);
-                srl.Serialize(tw,olist);
+                srl.Serialize(tw, olist);
                 tw.Close();
                 MessageBox.Show("liste kaydedildi.");
             }
 
         }
-       //
+        //
         private void button3_Click(object sender, EventArgs e)
         {
-            List<ogrenci> okunanogrenciler = new List<ogrenci>();
+            try
+            {
+                List<ogrenci> okunanogrenciler = new List<ogrenci>();
+            openfilegrenciler.Title = "xml dosyaları";
+            openfilegrenciler.Filter = "*.xml|*.xml";
+            openfilegrenciler.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+
             XmlSerializer srl = new XmlSerializer(typeof(List<ogrenci>));
-            if (openfilegrenciler.ShowDialog()==DialogResult.OK) {
+            if (openfilegrenciler.ShowDialog() == DialogResult.OK)
+            {
 
                 TextReader tr = new StreamReader(openfilegrenciler.FileName);
                 okunanogrenciler = (List<ogrenci>)srl.Deserialize(tr);
-                tr.Close();
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = okunanogrenciler;
+              tr.Close();
+               
 
             }
+                MessageBox.Show("liste alındı.");
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = okunanogrenciler;
+            }  
+            catch (Exception ex)
+            {
+
+                throw new Exception("hata" + ex.Message);
+            }
+            
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                saveFileOgrenci.Title = "öğrenci bilgileri kayıt";
+                saveFileOgrenci.Filter = "*.ktc|*.ktc";
+                saveFileOgrenci.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                if (saveFileOgrenci.ShowDialog() == DialogResult.OK)
+                {
+                    using (FileStream fsWrite = new FileStream(saveFileOgrenci.FileName, FileMode.Create))
+                    {
+                        BinaryFormatter bfWrite = new BinaryFormatter();
+                        bfWrite.Serialize(fsWrite, olist);
 
 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("hata" + ex.Message);
+            }
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+
+            try
+            {
+                List<ogrenci> result = new List<ogrenci>();
+                openfilegrenciler.Title = "ktc dosyaları";
+                openfilegrenciler.Filter = "*.ktc|*.ktc";
+                openfilegrenciler.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                if (openfilegrenciler.ShowDialog() == DialogResult.OK)
+                {
+                    using (FileStream fsRead = new FileStream(openfilegrenciler.FileName, FileMode.Open))
+                    {
+                        BinaryFormatter bfRead = new BinaryFormatter();
+                        result = (List<ogrenci>)bfRead.Deserialize(fsRead);
+
+                    }
+                    MessageBox.Show("liste alındı.");
+
+                }
+                dataGridView1.DataSource = result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("hata"+ex.Message);
+
+            }
 
         }
     }
